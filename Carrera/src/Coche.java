@@ -3,6 +3,7 @@ import java.util.Random;
 public class Coche {
     private int idCoche;
     private String nombre;
+    private int posicion = 1;
 
     private double velocidadActual;
     private double velocidadMaxima;
@@ -88,7 +89,7 @@ public class Coche {
                 if (velocidadActual < 0) {
                     velocidadActual = 0; // La velocidad no puede ser negativa
                 }
-                System.out.println(nombre + " ha tomado una curva en el punto " + posicionCurva + ". Velocidad actual: " + velocidadActual);
+                System.out.println(nombre + " ha tomado una curva en el punto " + posicionCurva);
             }
         }
 
@@ -116,14 +117,6 @@ public class Coche {
             }
             combustible -= 1;
         }
-    }
-
-    void frenar(){
-        velocidadActual-=5;
-        if (velocidadActual<0){
-            velocidadActual=0;
-        }
-
     }
 
     @Override
@@ -185,6 +178,9 @@ public class Coche {
     }
 
     public void setDurabilidad(int durabilidad) {
+        if (durabilidad<0){
+            durabilidad=0;
+        }
         this.durabilidad = durabilidad;
     }
 
@@ -254,5 +250,13 @@ public class Coche {
 
     public void setIdCoche(int idCoche) {
         this.idCoche = idCoche;
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
     }
 }

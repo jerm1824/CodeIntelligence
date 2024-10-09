@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,6 @@ public class Carrera {
         double longitudTotal = circuito.longitudCarrera();
         boolean carreraEnCurso = true;
         int tiempo = 0; // Tiempo en segundos o unidades de tiempo
-
         // Obtener posiciones de las curvas del circuito
         double[] posicionesCurvas = circuito.calcularPosicionesCurvas();
 
@@ -29,7 +29,6 @@ public class Carrera {
             for (Coche coche : coches) {
                 if (coche.isEnCarrera()) {
                     carreraEnCurso = true;
-
                     // Verificar si el coche ha pasado por una curva
                     for (double posicionCurva : posicionesCurvas) {
                         if (coche.getDistanciaRecorrida() % circuito.getLongitud() >= posicionCurva &&
@@ -40,7 +39,7 @@ public class Carrera {
                             if (coche.getVelocidadActual() < 0) {
                                 coche.setVelocidadActual(0); // La velocidad no puede ser negativa
                             }
-                            System.out.println(coche.getNombre() + " ha tomado una curva en el punto " + posicionCurva + ". Velocidad actual: " + coche.getVelocidadActual());
+                            System.out.println(coche.getNombre() + " ha tomado una curva en el punto " + posicionCurva);
                         }
                     }
 
@@ -69,6 +68,7 @@ public class Carrera {
                     }
                 }
             }
+            actualizarPosiciones();
             tiempo++;
         }
         mostrarRankingFinal();
@@ -76,8 +76,10 @@ public class Carrera {
 
     private void mostrarEstadoCoche(Coche coche) {
         System.out.println("Coche: " + coche.getNombre());
-        System.out.println("  Posición: " + coche.getDistanciaRecorrida() + " / " + circuito.longitudCarrera());
-        System.out.println("  Velocidad Actual: " + coche.getVelocidadActual());
+        System.out.println("Posición: P" + coche.getPosicion());
+        System.out.println("  Distancia Recorrida: " + coche.getDistanciaRecorrida() + " / " + circuito.longitudCarrera());
+        DecimalFormat df = new DecimalFormat("#.##");
+        System.out.println("  Velocidad Actual: " + df.format(coche.getVelocidadActual()) + "KM/H");
         System.out.println("  Combustible Restante: " + coche.getCombustible());
         System.out.println("  Durabilidad: " + coche.getDurabilidad());
         System.out.println("  Vueltas Restantes: " + (circuito.getVueltas() - coche.getVueltasCompletadas()));
@@ -173,4 +175,27 @@ public class Carrera {
                 return 0.0; // Por defecto, sin eventos
         }
     }
+
+    public void actualizarPosiciones() {
+        // Primero, restablece las posiciones de todos los coches
+        for (Coche coche : coches) {
+            coche.setPosicion(0); // O establece a un valor que indique no asignada
+        }
+
+        // Luego, calcula la posición de cada coche
+        for (Coche coche : coches) {
+            int delante = 0; // Contador de coches delante
+
+            for (Coche otroCoche : coches) {
+                if (otroCoche != coche) {
+                    if (otroCoche.getDistanciaRecorrida() > coche.getDistanciaRecorrida()) {
+                        delante++; // Incrementa si otro coche está delante
+                    }
+                }
+            }
+
+            coche.setPosicion(delante + 1); // Establece la posición del coche
+        }
+    }
+
 }
