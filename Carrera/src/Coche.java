@@ -13,6 +13,8 @@ public class Coche {
 
     private String piloto;
 
+    private double distanciaRecorrida;
+
     private Coche(){
         nombre="Relampágo";
         velocidadActual=0;
@@ -22,6 +24,7 @@ public class Coche {
         combustible=1;
         durabilidad=1;
         piloto="Franceso virgolini";
+        distanciaRecorrida=0;
 
     }
 
@@ -55,7 +58,12 @@ public class Coche {
 
     }
 
-
+    void avanzar(){
+        acelerar();
+        if (combustible>0){
+            distanciaRecorrida+=velocidadActual;
+        }
+    }
 
 
     public String getNombre() {
@@ -64,6 +72,14 @@ public class Coche {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public double getVelocidadActual() {
+        return velocidadActual;
+    }
+
+    public void setVelocidadActual(double velocidadActual) {
+        this.velocidadActual = velocidadActual;
     }
 
     public double getVelocidadMaxima() {
@@ -112,5 +128,13 @@ public class Coche {
 
     public void setPiloto(String piloto) {
         this.piloto = piloto;
+    }
+
+    public double getDistanciaRecorrida() {
+        return distanciaRecorrida;
+    }
+
+    public void setDistanciaRecorrida(double distanciaRecorrida) {
+        this.distanciaRecorrida = distanciaRecorrida;
     }
 }
