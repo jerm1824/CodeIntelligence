@@ -1,11 +1,15 @@
 public class Circuito {
+    int id;
+    String nombre;
     double longitud;
     int vueltas;
     int curvas;
     String tiempo;
     double dificultad;
 
-    public Circuito(double longitud, int vueltas, int curvas, String tiempo, double dificultad) {
+    public Circuito(int id, String nombre, double longitud, int vueltas, int curvas, String tiempo, double dificultad) {
+        this.id = id;
+        this.nombre = nombre;
         this.longitud = longitud;
         this.vueltas = vueltas;
         this.curvas = curvas;
@@ -23,6 +27,19 @@ public class Circuito {
         }
 
         return posicionesCurvas;
+    }
+
+    @Override
+    public String toString() {
+        return "Circuito{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", longitud=" + longitud +
+                ", vueltas=" + vueltas +
+                ", curvas=" + curvas +
+                ", tiempo='" + tiempo + '\'' +
+                ", dificultad=" + dificultad +
+                '}';
     }
 
     public double longitudCarrera() {
@@ -67,5 +84,21 @@ public class Circuito {
 
     public void setDificultad(double dificultad) {
         this.dificultad = dificultad;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

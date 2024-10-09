@@ -1,4 +1,5 @@
 public class Coche {
+    private int idCoche;
     private String nombre;
 
     private double velocidadActual;
@@ -31,9 +32,10 @@ public class Coche {
 
     }
 
-    public Coche(String nombre,double velocidadMaxima,double aceleracion,int manejo,int combustible,
+    public Coche(int idCoche, String nombre,double velocidadMaxima,double aceleracion,int manejo,int combustible,
                  int durabilidad, String piloto){
         this();
+        setIdCoche(idCoche);
         setNombre(nombre);
         setVelocidadMaxima(velocidadMaxima);
         setAceleracion(aceleracion);
@@ -116,8 +118,19 @@ public class Coche {
 
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Coche{" +
+                "Id coche='" + idCoche +
+                " nombre='" + nombre +
+                " velocidadMaxima=" + velocidadMaxima +
+                ", aceleracion=" + aceleracion +
+                ", manejo=" + manejo +
+                ", combustible=" + combustible +
+                ", durabilidad=" + durabilidad +
+                ", piloto='" + piloto + '\'' +
+                '}';
+    }
 
     public String getNombre() {
         return nombre;
@@ -225,5 +238,13 @@ public class Coche {
 
     public void setVelocidadActual(double velocidadActual) {
         this.velocidadActual = velocidadActual;
+    }
+
+    public int getIdCoche() {
+        return idCoche;
+    }
+
+    public void setIdCoche(int idCoche) {
+        this.idCoche = idCoche;
     }
 }
