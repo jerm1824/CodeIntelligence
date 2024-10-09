@@ -55,19 +55,19 @@ public class Coche {
     public void actualizarEstado(Circuito circuito, boolean climaAdverso, double tiempoTranscurrido) {
         if (combustible <= 0) {
             enCarrera = false;
-            System.out.println(nombre + " se quedó sin combustible.");
+            System.out.println(piloto + " se quedó sin combustible.");
             return;
         }
         if (durabilidad <= 0) {
             enCarrera = false;
-            System.out.println(nombre + " sufrió daños y no puede continuar.");
+            System.out.println(piloto + " sufrió daños y no puede continuar.");
             return;
         }
 
         // Simular condiciones climáticas
         if (climaAdverso) {
             manejo -= 1; // El manejo empeora en clima adverso
-            System.out.println(nombre + " está afectado por el clima.");
+            System.out.println(piloto + " está afectado por el clima.");
         }
 
         // Definir la posición de las curvas en la pista (usamos porcentajes de la longitud total de la vuelta)
@@ -89,7 +89,7 @@ public class Coche {
                 if (velocidadActual < 0) {
                     velocidadActual = 0; // La velocidad no puede ser negativa
                 }
-                System.out.println(nombre + " ha tomado una curva en el punto " + posicionCurva);
+                System.out.println(piloto + " ha tomado una curva en el punto " + posicionCurva);
             }
         }
 
@@ -102,7 +102,7 @@ public class Coche {
         // Actualizar vueltas completadas
         if (distanciaRecorrida >= circuito.getLongitud() * (vueltasCompletadas + 1)) {
             vueltasCompletadas++;
-            System.out.println(nombre + " ha completado la vuelta " + vueltasCompletadas + ".");
+            System.out.println(piloto + " ha completado la vuelta " + vueltasCompletadas + ".");
         }
 
         // Actualizar tiempo total
