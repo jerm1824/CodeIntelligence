@@ -14,6 +14,6 @@ class Circuito {
     }
 
     public double longitudCarrera() {
-        return longitud * vueltas; // Calculate total race length
+        return longitud * vueltas;
     }
 }
