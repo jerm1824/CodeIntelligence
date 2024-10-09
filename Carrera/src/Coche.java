@@ -14,6 +14,10 @@ public class Coche {
     private String piloto;
 
     private double distanciaRecorrida;
+    private int vueltasCompletadas;
+    private boolean enCarrera;
+    private double tiempoTotal; // Tiempo total que el coche ha tardado en completar la carrera
+    private boolean terminado;
 
     private Coche(){
         nombre="Relampágo";
@@ -24,7 +28,6 @@ public class Coche {
         combustible=1;
         durabilidad=1;
         piloto="Franceso virgolini";
-        distanciaRecorrida=0;
 
     }
 
@@ -38,6 +41,61 @@ public class Coche {
         setCombustible(combustible);
         setDurabilidad(durabilidad);
         setPiloto(piloto);
+        this.enCarrera = true;
+    }
+
+    public void actualizarEstado(Circuito circuito, boolean climaAdverso, double tiempoTranscurrido) {
+        if (combustible <= 0) {
+            enCarrera = false;
+            System.out.println(nombre + " se quedó sin combustible.");
+            return;
+        }
+        if (durabilidad <= 0) {
+            enCarrera = false;
+            System.out.println(nombre + " sufrió daños y no puede continuar.");
+            return;
+        }
+
+        // Simular condiciones climáticas
+        if (climaAdverso) {
+            manejo -= 1; // El manejo empeora en clima adverso
+            System.out.println(nombre + " está afectado por el clima.");
+        }
+
+        // Definir la posición de las curvas en la pista (usamos porcentajes de la longitud total de la vuelta)
+        double[] posicionesCurvas = circuito.calcularPosicionesCurvas();
+
+        // Actualizar la distancia recorrida
+        distanciaRecorrida += velocidadActual * tiempoTranscurrido;
+
+        // Verificar si el coche ha alcanzado una curva
+        for (double posicionCurva : posicionesCurvas) {
+            if (distanciaRecorrida % circuito.getLongitud() >= posicionCurva &&
+                    distanciaRecorrida % circuito.getLongitud() < (posicionCurva + velocidadActual * tiempoTranscurrido)) {
+                // Simular la pérdida de velocidad en la curva
+                double perdidaPorCurva = (1 - ((double) manejo / 10)) * circuito.getDificultad();
+                velocidadActual -= velocidadActual * perdidaPorCurva;
+                if (velocidadActual < 0) {
+                    velocidadActual = 0; // La velocidad no puede ser negativa
+                }
+                System.out.println(nombre + " ha tomado una curva en el punto " + posicionCurva + ". Velocidad actual: " + velocidadActual);
+            }
+        }
+
+        // Acelerar después de las curvas
+        acelerar();
+
+        // Actualizar combustible
+        combustible -= 1;
+
+        // Actualizar vueltas completadas
+        if (distanciaRecorrida >= circuito.getLongitud() * (vueltasCompletadas + 1)) {
+            vueltasCompletadas++;
+            System.out.println(nombre + " ha completado la vuelta " + vueltasCompletadas + ".");
+        }
+
+        // Actualizar tiempo total
+        tiempoTotal += tiempoTranscurrido;
     }
 
     void acelerar(){
@@ -58,12 +116,7 @@ public class Coche {
 
     }
 
-    void avanzar(){
-        acelerar();
-        if (combustible>0){
-            distanciaRecorrida+=velocidadActual;
-        }
-    }
+
 
 
     public String getNombre() {
@@ -72,14 +125,6 @@ public class Coche {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public double getVelocidadActual() {
-        return velocidadActual;
-    }
-
-    public void setVelocidadActual(double velocidadActual) {
-        this.velocidadActual = velocidadActual;
     }
 
     public double getVelocidadMaxima() {
@@ -134,7 +179,51 @@ public class Coche {
         return distanciaRecorrida;
     }
 
+    public int getVueltasCompletadas() {
+        return vueltasCompletadas;
+    }
+
+    public boolean isEnCarrera() {
+        return enCarrera;
+    }
+
+    public void setEnCarrera(boolean enCarrera) {
+        this.enCarrera = enCarrera;
+    }
+
+    public boolean haTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(boolean terminado) {
+        this.terminado = terminado;
+    }
+
+    public double getTiempoTotal() {
+        return tiempoTotal;
+    }
+
+    public void setTiempoTotal(double tiempoTotal) {
+        this.tiempoTotal = tiempoTotal;
+    }
+
+    public boolean isTerminado() {
+        return terminado;
+    }
+
+    public void setVueltasCompletadas(int vueltasCompletadas) {
+        this.vueltasCompletadas = vueltasCompletadas;
+    }
+
     public void setDistanciaRecorrida(double distanciaRecorrida) {
         this.distanciaRecorrida = distanciaRecorrida;
+    }
+
+    public double getVelocidadActual() {
+        return velocidadActual;
+    }
+
+    public void setVelocidadActual(double velocidadActual) {
+        this.velocidadActual = velocidadActual;
     }
 }

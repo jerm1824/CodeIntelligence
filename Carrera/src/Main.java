@@ -1,20 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Coche coche1=new Coche("Relámpapago",200,50,4,50,50,"Mario");
-        Coche coche2=new Coche("Snake",150,70,10,50,50,"Colapinto");
-        Coche coche3=new Coche("Tanque",100,50,7,100,70,"Verstappen");
+        Circuito circuito = new Circuito(2150, 3, 3, "Soleado", 0.5);
+        List<Coche> coches = new ArrayList<>();
 
-        List<Coche> coches= new ArrayList<>();
-        coches.add(coche1);coches.add(coche2);coches.add(coche3);
+        Coche coche1 = new Coche("Relámpago", 200, 9, 8, 100, 100, "Piloto 1");
+        Coche coche2 = new Coche("Trueno", 190, 10, 7, 100, 100, "Piloto 2");
+        coches.add(coche1);
+        coches.add(coche2);
 
-        Circuito circuito=new Circuito(50,3,6,"No se",1);
-        Carrera carrera = new Carrera(coches,circuito);
-        Juego juego = new Juego(carrera);
-        juego.inicioCarrera();
+        Carrera carrera = new Carrera(circuito, coches, false);
+        carrera.iniciarCarrera();
     }
 }
