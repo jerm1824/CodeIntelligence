@@ -29,6 +29,54 @@ public class Circuito {
         this.id = id;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public int getVueltas() {
+        return vueltas;
+    }
+
+    public void setVueltas(int vueltas) {
+        this.vueltas = vueltas;
+    }
+
+    public int getCurvas() {
+        return curvas;
+    }
+
+    public void setCurvas(int curvas) {
+        this.curvas = curvas;
+    }
+
+    public String getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public double getDificultad() {
+        return dificultad;
+    }
+
+    public void setDificultad(double dificultad) {
+        this.dificultad = dificultad;
+    }
+
     @Override
     public String toString() {
         return "Circuito{" +

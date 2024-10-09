@@ -129,6 +129,9 @@ public class Coche {
     }
 
     public void setDurabilidad(int durabilidad) {
+        if (durabilidad<0){
+            durabilidad=0;
+        }
         this.durabilidad = durabilidad;
     }
 
