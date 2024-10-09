@@ -1,8 +1,7 @@
 import java.util.List;
+import java.util.Random;
 
 public class Juego {
-   /* private List<Coche> coches;
-    private Circuito circuito;*/
     Carrera carrera;
     public Juego(Carrera carrera){
         this.carrera=carrera;
@@ -33,4 +32,13 @@ public class Juego {
             coche.setDistanciaRecorrida(coche.getDistanciaRecorrida());
         }
    }
+
+ /*  public void eventosAleatorios(Coche coche,Circuito circuito){
+       Random rand=new Random();
+       int random= rand.nextInt(1,11);
+      if (random==7){
+          System.out.println("Hay obstaculos en la carretera: el manejo ha sido reducido");
+          coche.setManejo(coche.getManejo()-3);
+      }
+   }*/
 }
