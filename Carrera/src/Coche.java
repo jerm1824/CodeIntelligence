@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Coche {
     private int idCoche;
     private String nombre;
@@ -19,6 +21,8 @@ public class Coche {
     private boolean enCarrera;
     private double tiempoTotal; // Tiempo total que el coche ha tardado en completar la carrera
     private boolean terminado;
+
+    private Random random;
 
     private Coche(){
         nombre="Relampágo";
@@ -44,6 +48,7 @@ public class Coche {
         setDurabilidad(durabilidad);
         setPiloto(piloto);
         this.enCarrera = true;
+        this.random = new Random();
     }
 
     public void actualizarEstado(Circuito circuito, boolean climaAdverso, double tiempoTranscurrido) {
@@ -74,8 +79,11 @@ public class Coche {
         for (double posicionCurva : posicionesCurvas) {
             if (distanciaRecorrida % circuito.getLongitud() >= posicionCurva &&
                     distanciaRecorrida % circuito.getLongitud() < (posicionCurva + velocidadActual * tiempoTranscurrido)) {
-                // Simular la pérdida de velocidad en la curva
-                double perdidaPorCurva = (1 - ((double) manejo / 10)) * circuito.getDificultad();
+                // Simular la pérdida de velocidad en la curva con un factor de aleatoriedad
+                double perdidaPorCurvaBase = (1 - ((double) getManejo() / 10)) * circuito.getDificultad();
+                // Rango de aleatoriedad
+                double factorAleatorio = 1 + (random.nextDouble() * 0.4 - 0.2); // Rango de 80% a 120%
+                double perdidaPorCurva = perdidaPorCurvaBase * factorAleatorio;
                 velocidadActual -= velocidadActual * perdidaPorCurva;
                 if (velocidadActual < 0) {
                     velocidadActual = 0; // La velocidad no puede ser negativa
