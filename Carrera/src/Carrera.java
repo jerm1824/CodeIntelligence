@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class Carrera {
     private Circuito circuito;
     private List<Coche> coches;
     private boolean climaAdverso;
+    Random rand = new Random();
 
     public Carrera(Circuito circuito, List<Coche> coches, boolean climaAdverso) {
         this.circuito = circuito;
@@ -43,6 +45,11 @@ public class Carrera {
                     }
 
                     // Actualizar estado del coche
+                    double probabilidadEvento = calcularProbabilidad(circuito.getDificultad());
+                    double eventoAleatorio = rand.nextDouble();
+                    if (eventoAleatorio <= probabilidadEvento) {
+                        eventosAleatorios(coche, circuito);
+                    }
                     coche.actualizarEstado(circuito, climaAdverso, 1);
 
                     // Anunciar si el coche ha completado una vuelta
@@ -99,6 +106,71 @@ public class Carrera {
                 .orElse(null);
         if (ganador != null) {
             System.out.println("El ganador es: " + ganador.getPiloto() + " con un tiempo de " + ganador.getTiempoTotal() + " segundos!");
+        }
+    }
+
+    public void eventosAleatorios(Coche coche,Circuito circuito) {
+        Random rand = new Random();
+        int eventoAleatorio = rand.nextInt(101);
+        System.out.println(eventoAleatorio);
+        ;
+        double dificultad = circuito.getDificultad();
+        if (dificultad == 0) {
+            if (eventoAleatorio > 50 && eventoAleatorio <= 80) {
+                System.out.println(coche.getNombre() + "Ha sufrido un ligero choque");
+                coche.setDurabilidad(coche.getDurabilidad() - 5);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            } else if (eventoAleatorio > 80) {
+                System.out.println(coche.getNombre() + " Ha sufrido un golpe grave");
+                coche.setDurabilidad(coche.getDurabilidad() - 10);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            }
+        } else if (dificultad == 1) {
+            if (eventoAleatorio > 25 && eventoAleatorio <= 50) {
+                System.out.println(coche.getNombre() + " ha sufrido un ligero golpe");
+                coche.setDurabilidad(coche.getDurabilidad() - 5);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            } else if (eventoAleatorio > 50 && eventoAleatorio <= 90) {
+                System.out.println(coche.getNombre() + " ha sifrido un golpe grave");
+                coche.setDurabilidad(coche.getDurabilidad() - 10);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+
+            } else if (eventoAleatorio > 90) {
+                System.out.println(coche.getNombre() + " ha sufrido un golpe muy grave");
+                coche.setDurabilidad(coche.getDurabilidad() - 30);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            }
+        } else {
+            if (eventoAleatorio > 10 && eventoAleatorio < 25) {
+                System.out.println(coche.getNombre() + " ha sufrido un ligero golpe");
+                coche.setDurabilidad(coche.getDurabilidad() - 5);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            } else if (eventoAleatorio >= 25 && eventoAleatorio < 50) {
+                System.out.println(coche.getNombre() + " ha sifrido un golpe grave");
+                coche.setDurabilidad(coche.getDurabilidad() - 10);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            } else if (eventoAleatorio >= 50 && eventoAleatorio < 95) {
+                System.out.println(coche.getNombre() + " ha sufrido un golpe muy grave");
+                coche.setDurabilidad(coche.getDurabilidad() - 25);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            } else if (eventoAleatorio > 95) {
+                System.out.println(coche.getNombre() + " ha sufrido un siniestro total");
+                coche.setDurabilidad(coche.getDurabilidad() - 100);
+                System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
+            }
+        }
+    }
+
+    private double calcularProbabilidad(int dificultad) {
+        switch (dificultad) {
+            case 0: // Dificultad 0
+                return 0.0; // No hay eventos
+            case 1: // Dificultad 1
+                return 0.02; // 2% de probabilidad
+            case 2: // Dificultad 2
+                return 0.05; // 5% de probabilidad
+            default:
+                return 0.0; // Por defecto, sin eventos
         }
     }
 }

@@ -5,9 +5,9 @@ public class Circuito {
     int vueltas;
     int curvas;
     String tiempo;
-    double dificultad;
+    int dificultad;
 
-    public Circuito(int id, String nombre, double longitud, int vueltas, int curvas, String tiempo, double dificultad) {
+    public Circuito(int id, String nombre, double longitud, int vueltas, int curvas, String tiempo, int dificultad) {
         this.id = id;
         this.nombre = nombre;
         this.longitud = longitud;
@@ -78,11 +78,11 @@ public class Circuito {
         this.tiempo = tiempo;
     }
 
-    public double getDificultad() {
+    public int getDificultad() {
         return dificultad;
     }
 
-    public void setDificultad(double dificultad) {
+    public void setDificultad(int dificultad) {
         this.dificultad = dificultad;
     }
 
