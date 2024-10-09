@@ -13,7 +13,7 @@ class Circuito {
         this.dificultad = dificultad;
     }
 
-    public double totalLength() {
+    public double longitudCarrera() {
         return longitud * vueltas; // Calculate total race length
     }
 }
