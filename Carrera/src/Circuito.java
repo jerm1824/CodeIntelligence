@@ -1,4 +1,4 @@
-class Circuito {
+public class Circuito {
     double longitud;
     int vueltas;
     int curvas;
