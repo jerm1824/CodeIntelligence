@@ -8,12 +8,16 @@ public class Carrera {
     private Circuito circuito;
     private List<Coche> coches;
     private boolean climaAdverso;
+
+    private Coche cocheJugador;
+
     Random rand = new Random();
 
-    public Carrera(Circuito circuito, List<Coche> coches, boolean climaAdverso) {
+    public Carrera(Circuito circuito, List<Coche> coches, boolean climaAdverso,Coche cocheJugador) {
         this.circuito = circuito;
         this.coches = coches;
         this.climaAdverso = climaAdverso;
+        this.cocheJugador = cocheJugador;
     }
 
     public void iniciarCarrera() {
@@ -48,6 +52,12 @@ public class Carrera {
                     double eventoAleatorio = rand.nextDouble();
                     if (eventoAleatorio <= probabilidadEvento) {
                         eventosAleatorios(coche, circuito);
+                    }
+
+                    if (coche.getCombustible()<coche.getCombustibleMaximo()/2){
+                        if (eventoAleatorio < 1){
+                            coche.turbo();
+                        }
                     }
                     coche.actualizarEstado(circuito, climaAdverso, 1);
 
@@ -96,9 +106,8 @@ public class Carrera {
             if (coche.haTerminado()) {
                 System.out.println(posicion + ". " + coche.getNombre() + " - Tiempo: " + coche.getTiempoTotal() + " segundos");
                 posicion++;
-            } else {
-                System.out.println(coche.getPiloto() + " no terminó la carrera.");
             }
+
         }
 
         // Mostrar el ganador
@@ -108,14 +117,14 @@ public class Carrera {
                 .orElse(null);
         if (ganador != null) {
             System.out.println("El ganador es: " + ganador.getPiloto() + " con un tiempo de " + ganador.getTiempoTotal() + " segundos!");
+            comprobarSeleccionado(cocheJugador,ganador);
         }
     }
 
     public void eventosAleatorios(Coche coche,Circuito circuito) {
         Random rand = new Random();
         int eventoAleatorio = rand.nextInt(101);
-        System.out.println(eventoAleatorio);
-        ;
+       // System.out.println(eventoAleatorio); Prueba aleatoriedad
         double dificultad = circuito.getDificultad();
         if (dificultad == 0) {
             if (eventoAleatorio > 50 && eventoAleatorio <= 80) {
@@ -133,7 +142,7 @@ public class Carrera {
                 coche.setDurabilidad(coche.getDurabilidad() - 5);
                 System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
             } else if (eventoAleatorio > 50 && eventoAleatorio <= 90) {
-                System.out.println(coche.getNombre() + " ha sifrido un golpe grave");
+                System.out.println(coche.getNombre() + " ha sufrido un golpe grave");
                 coche.setDurabilidad(coche.getDurabilidad() - 10);
                 System.out.println(coche.getNombre() + " su durabilidad actual es: " + coche.getDurabilidad());
 
@@ -198,4 +207,12 @@ public class Carrera {
         }
     }
 
+    void comprobarSeleccionado(Coche cocheJugador, Coche ganador){
+        if (cocheJugador.getIdCoche()== ganador.getIdCoche()){
+            System.out.println("Ha elegido el coche ganador. !FELICIDADES¡");
+        }
+        else {
+            System.out.println("Tu coche no ha ganado intentalo otra vez");
+        }
+    }
 }

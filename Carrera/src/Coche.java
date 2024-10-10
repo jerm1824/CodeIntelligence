@@ -3,7 +3,8 @@ import java.util.Random;
 public class Coche {
     private int idCoche;
     private String nombre;
-    private int posicion = 1;
+
+    private int posicion=1;
 
     private double velocidadActual;
     private double velocidadMaxima;
@@ -11,6 +12,8 @@ public class Coche {
     private double aceleracion;
 
     private int manejo;
+
+    private int combustibleMaximo;
 
     private int combustible;
     private int durabilidad;
@@ -24,6 +27,30 @@ public class Coche {
     private boolean terminado;
 
     private Random random;
+
+    public int getCombustibleMaximo() {
+        return combustibleMaximo;
+    }
+
+    public void setCombustibleMaximo(int combustibleMaximo) {
+        this.combustibleMaximo = combustibleMaximo;
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public void setRandom(Random random) {
+        this.random = random;
+    }
 
     private Coche(){
         nombre="Relampágo";
@@ -45,6 +72,7 @@ public class Coche {
         setVelocidadMaxima(velocidadMaxima);
         setAceleracion(aceleracion);
         setManejo(manejo);
+        setCombustibleMaximo(combustible);
         setCombustible(combustible);
         setDurabilidad(durabilidad);
         setPiloto(piloto);
@@ -89,7 +117,7 @@ public class Coche {
                 if (velocidadActual < 0) {
                     velocidadActual = 0; // La velocidad no puede ser negativa
                 }
-                System.out.println(nombre + " ha tomado una curva en el punto " + posicionCurva);
+                System.out.println(nombre + " ha tomado una curva en el punto " + posicionCurva + ". Velocidad actual: " + velocidadActual);
             }
         }
 
@@ -117,6 +145,22 @@ public class Coche {
             }
             combustible -= 1;
         }
+    }
+
+    void turbo(){
+        if (getVelocidadActual()<getVelocidadMaxima()){
+            System.out.println(getNombre() + " va a activar el turbo su velocidad actual es: " + getVelocidadActual());
+            setVelocidadActual(getVelocidadActual()*1.5);
+            System.out.println(getNombre() + " ha activado el turbo");
+        }
+    }
+
+    void frenar(){
+        velocidadActual-=5;
+        if (velocidadActual<0){
+            velocidadActual=0;
+        }
+
     }
 
     @Override
@@ -170,6 +214,9 @@ public class Coche {
     }
 
     public void setCombustible(int combustible) {
+        if (combustible<0){
+            combustible=0;
+        }
         this.combustible = combustible;
     }
 
@@ -241,6 +288,9 @@ public class Coche {
     }
 
     public void setVelocidadActual(double velocidadActual) {
+        if (velocidadActual>velocidadMaxima){
+            velocidadActual=velocidadMaxima;
+        }
         this.velocidadActual = velocidadActual;
     }
 
@@ -250,13 +300,5 @@ public class Coche {
 
     public void setIdCoche(int idCoche) {
         this.idCoche = idCoche;
-    }
-
-    public int getPosicion() {
-        return posicion;
-    }
-
-    public void setPosicion(int posicion) {
-        this.posicion = posicion;
     }
 }

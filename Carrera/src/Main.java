@@ -7,8 +7,8 @@ public class Main {
     static Circuito circuitoSeleccionado=null;
     public static void main(String[] args) {
         Scanner scan=new Scanner(System.in);
-        Coche coche1 = new Coche(1,"Relámpago", 160, 9, 7, 300, 100, "Mario");
-        Coche coche2 = new Coche(2,"Snake", 150, 8, 7, 300, 100, "Colapinto");
+        Coche coche1 = new Coche(1,"Relámpago", 160, 9, 7, 150, 100, "Alonso");
+        Coche coche2 = new Coche(2,"Snake", 150, 8, 7, 200, 100, "Hamilton");
         Coche coche3 = new Coche(3,"Tanque",170, 10, 7, 300, 100, "Verstappen");
         Circuito circuito1= new Circuito(1,"Circuito 1",600,3,6,"Soleado",1);
         Circuito circuito2=new Circuito(2,"Circuito 2",700,4,7,"Lluvioso",2);
@@ -66,7 +66,7 @@ public class Main {
                 scan.next();
             }
         }while (circuitoSeleccionado==null);
-        Carrera carrera = new Carrera(circuitoSeleccionado, coches, false);
+        Carrera carrera = new Carrera(circuitoSeleccionado, coches, false,cocheSeleccionado);
         carrera.iniciarCarrera();
     }
 }
