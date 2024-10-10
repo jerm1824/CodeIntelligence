@@ -57,4 +57,14 @@ public class Grupos {
     public void setListaUsuarios(List<Usuarios> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
+
+    @Override
+    public String toString() {
+        return "Grupos{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", listaUsuarios=" + listaUsuarios +
+                '}';
+    }
 }

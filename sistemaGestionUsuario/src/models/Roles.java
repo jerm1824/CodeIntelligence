@@ -1,23 +1,21 @@
 package models;
 
+import java.util.List;
+
 public class Roles {
     private int id;
 
     private String nombre;
 
-    private String permisos;
+    private List<String> permisos;
 
     private Roles(){
-        id=1;
-        nombre="nombre";
-        permisos="permisos";
     }
 
-    public Roles(int id,String nombre, String permisos){
-        super();
-        setId(id);
-        setNombre(nombre);
-        setPermisos(permisos);
+    public Roles(int id,String nombre, List<String> permisos){
+        this.id = id;
+        this.nombre = nombre;
+        this.permisos = permisos;
     }
 
     public int getId() {
@@ -36,11 +34,20 @@ public class Roles {
         this.nombre = nombre;
     }
 
-    public String getPermisos() {
+    public List<String> getPermisos() {
         return permisos;
     }
 
-    public void setPermisos(String permisos) {
+    public void setPermisos(List<String> permisos) {
         this.permisos = permisos;
+    }
+
+    @Override
+    public String toString() {
+        return "Roles{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", permisos=" + permisos +
+                '}';
     }
 }

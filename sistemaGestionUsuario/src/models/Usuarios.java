@@ -68,4 +68,16 @@ public class Usuarios {
     public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "Usuarios{" +
+                "id=" + id +
+                ", Nombre='" + Nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", edad=" + edad +
+                ", departamentos=" + departamentos +
+                ", roles=" + roles +
+                '}';
+    }
 }
