@@ -7,19 +7,21 @@ import java.util.Random;
 public class Carrera {
     private Circuito circuito;
     private List<Coche> coches;
-    private boolean climaAdverso;
 
     private Coche cocheJugador;
     Random rand = new Random();
 
-    public Carrera(Circuito circuito, List<Coche> coches, boolean climaAdverso,Coche cocheJugador) {
+    public Carrera(Circuito circuito, List<Coche> coches,Coche cocheJugador) {
         this.circuito = circuito;
         this.coches = coches;
-        this.climaAdverso = climaAdverso;
         this.cocheJugador = cocheJugador;
+
+        Climas clima = Climas.valueOf(circuito.getTiempo().toUpperCase()); // Convertir String a enum
+        ajustarDificultadPorClima(clima);
     }
 
     public void iniciarCarrera() {
+        System.out.println(circuito);
         double longitudTotal = circuito.longitudCarrera();
         boolean carreraEnCurso = true;
         int tiempo = 0; // Tiempo en segundos o unidades de tiempo
@@ -53,13 +55,14 @@ public class Carrera {
                         eventosAleatorios(coche, circuito);
                     }
 
+                    // Activar el turbo si está por debajo de la mitad de combustible
                     if (coche.getCombustible()< coche.getCombustibleMaximo()/2) {
                         if (eventoAleatorio<0.2){
                             coche.turbo();
                         }
 
                     }
-                    coche.actualizarEstado(circuito, climaAdverso, 1);
+                    coche.actualizarEstado(circuito, 1);
 
                     // Anunciar si el coche ha completado una vuelta
                     if (coche.getDistanciaRecorrida() >= circuito.getLongitud() * (coche.getVueltasCompletadas() + 1)) {
@@ -122,6 +125,27 @@ public class Carrera {
         }
     }
 
+    private void ajustarDificultadPorClima(Climas clima) {
+        switch (clima) {
+            case NUBLADO:
+                circuito.setDificultad(circuito.getDificultad() + 1);
+                System.out.println("El clima es adverso (" + clima + "). La dificultad aumenta en 1.");
+                break;
+            case LLUVIOSO:
+                circuito.setDificultad(circuito.getDificultad() + 2);
+                System.out.println("El clima es bastante adverso (" + clima + "). La dificultad aumenta en 2.");
+                break;
+            case NEVADO:
+                circuito.setDificultad(circuito.getDificultad() + 3);
+                System.out.println("El clima es extremadamente adverso (" + clima + "). La dificultad aumenta en 3.");
+                break;
+            case SOLEADO:
+                System.out.println("El clima es favorable.");
+                break;
+        }
+    }
+
+    // Simulación de accidentes
     public void eventosAleatorios(Coche coche,Circuito circuito) {
         Random rand = new Random();
         int eventoAleatorio = rand.nextInt(101);
@@ -174,19 +198,23 @@ public class Carrera {
         }
     }
 
+    // Probabilidad de eventos según dificultad
     private double calcularProbabilidad(int dificultad) {
         switch (dificultad) {
-            case 0: // Dificultad 0
-                return 0.0; // No hay eventos
             case 1: // Dificultad 1
                 return 0.02; // 2% de probabilidad
             case 2: // Dificultad 2
                 return 0.05; // 5% de probabilidad
+            case 3:
+                return 0.07; // 7% de probabilidad
+            case 4:
+                return 0.1; // 10% de probabilidad
             default:
                 return 0.0; // Por defecto, sin eventos
         }
     }
 
+    // Comprobar la posición en carrera del coche
     public void actualizarPosiciones() {
         // Primero, restablece las posiciones de todos los coches
         for (Coche coche : coches) {
@@ -209,6 +237,8 @@ public class Carrera {
         }
     }
 
+
+    // Comprobar si el jugador ha ganado la carrera
     void comprobarGanador(Coche cocheSeleccionado,Coche cocheGanador){
         if (cocheSeleccionado.getIdCoche()==cocheGanador.getIdCoche()){
             System.out.println("Su coche ha ganado.!FELICIDADES'");

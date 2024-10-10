@@ -55,7 +55,7 @@ public class Coche {
         this.random = new Random();
     }
 
-    public void actualizarEstado(Circuito circuito, boolean climaAdverso, double tiempoTranscurrido) {
+    public void actualizarEstado(Circuito circuito, double tiempoTranscurrido) {
         if (combustible <= 0) {
             enCarrera = false;
             System.out.println(nombre + " se quedó sin combustible.");
@@ -65,12 +65,6 @@ public class Coche {
             enCarrera = false;
             System.out.println(nombre + " sufrió daños y no puede continuar.");
             return;
-        }
-
-        // Simular condiciones climáticas
-        if (climaAdverso) {
-            manejo -= 1; // El manejo empeora en clima adverso
-            System.out.println(nombre + " está afectado por el clima.");
         }
 
         // Definir la posición de las curvas en la pista (usamos porcentajes de la longitud total de la vuelta)
