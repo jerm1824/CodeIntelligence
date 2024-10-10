@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Carrera/Carrera.iml" filepath="$PROJECT_DIR$/Carrera/Carrera.iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeIntelligence.iml" filepath="$PROJECT_DIR$/CodeIntelligence.iml" />
       <module fileurl="file://$PROJECT_DIR$/EjerciciosString/EjerciciosString.iml" filepath="$PROJECT_DIR$/EjerciciosString/EjerciciosString.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sistemaGestionUsuario/sistemaGestionUsuario.iml" filepath="$PROJECT_DIR$/sistemaGestionUsuario/sistemaGestionUsuario.iml" />
     </modules>
   </component>
 </project>
