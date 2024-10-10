@@ -13,6 +13,8 @@ public class Coche {
     private int manejo;
 
     private int combustible;
+
+    private int combustibleMaximo;
     private int durabilidad;
 
     private String piloto;
@@ -46,6 +48,7 @@ public class Coche {
         setAceleracion(aceleracion);
         setManejo(manejo);
         setCombustible(combustible);
+        setCombustibleMaximo(combustible);
         setDurabilidad(durabilidad);
         setPiloto(piloto);
         this.enCarrera = true;
@@ -119,6 +122,30 @@ public class Coche {
         }
     }
 
+    public int getCombustibleMaximo() {
+        return combustibleMaximo;
+    }
+
+    public void setCombustibleMaximo(int combustibleMaximo) {
+        this.combustibleMaximo = combustibleMaximo;
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+
+    void turbo(){
+        if (getVelocidadActual()<getVelocidadMaxima()){
+            System.out.println(getNombre()+ " va a utilizar el turbo.");
+            setVelocidadActual(getVelocidadActual()*1.5);
+            System.out.println(getNombre()+ " su velocidad actual es: " + getVelocidadActual());
+        }
+    }
+
     @Override
     public String toString() {
         return "Coche{" +
@@ -128,6 +155,7 @@ public class Coche {
                 ", aceleracion=" + aceleracion +
                 ", manejo=" + manejo +
                 ", combustible=" + combustible +
+                ", combustible maximo=" + combustibleMaximo +
                 ", durabilidad=" + durabilidad +
                 ", piloto='" + piloto + '\'' +
                 '}';

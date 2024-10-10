@@ -8,12 +8,15 @@ public class Carrera {
     private Circuito circuito;
     private List<Coche> coches;
     private boolean climaAdverso;
+
+    private Coche cocheJugador;
     Random rand = new Random();
 
-    public Carrera(Circuito circuito, List<Coche> coches, boolean climaAdverso) {
+    public Carrera(Circuito circuito, List<Coche> coches, boolean climaAdverso,Coche cocheJugador) {
         this.circuito = circuito;
         this.coches = coches;
         this.climaAdverso = climaAdverso;
+        this.cocheJugador = cocheJugador;
     }
 
     public void iniciarCarrera() {
@@ -48,6 +51,13 @@ public class Carrera {
                     double eventoAleatorio = rand.nextDouble();
                     if (eventoAleatorio <= probabilidadEvento) {
                         eventosAleatorios(coche, circuito);
+                    }
+
+                    if (coche.getCombustible()< coche.getCombustibleMaximo()/2) {
+                        if (eventoAleatorio<0.2){
+                            coche.turbo();
+                        }
+
                     }
                     coche.actualizarEstado(circuito, climaAdverso, 1);
 
@@ -108,6 +118,7 @@ public class Carrera {
                 .orElse(null);
         if (ganador != null) {
             System.out.println("El ganador es: " + ganador.getPiloto() + " con un tiempo de " + ganador.getTiempoTotal() + " segundos!");
+            comprobarGanador(getCocheJugador(),ganador);
         }
     }
 
@@ -198,4 +209,21 @@ public class Carrera {
         }
     }
 
+    void comprobarGanador(Coche cocheSeleccionado,Coche cocheGanador){
+        if (cocheSeleccionado.getIdCoche()==cocheGanador.getIdCoche()){
+            System.out.println("Su coche ha ganado.!FELICIDADES'");
+        }
+        else {
+            System.out.println("No has ganado, intentalo otra vez");
+        }
+
+    }
+
+    public Coche getCocheJugador() {
+        return cocheJugador;
+    }
+
+    public void setCocheJugador(Coche cocheJugador) {
+        this.cocheJugador = cocheJugador;
+    }
 }

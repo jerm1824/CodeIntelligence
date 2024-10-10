@@ -2,7 +2,7 @@ import java.util.List;
 
 public class Juego {
    /* private List<Coche> coches;
-    private Circuito circuito;*/
+    private Circuito circuito;
     Carrera carrera;
     public Juego(Carrera carrera){
         this.carrera=carrera;
@@ -32,5 +32,5 @@ public class Juego {
         else {
             coche.setDistanciaRecorrida(coche.getDistanciaRecorrida());
         }
-   }
+   }*/
 }
