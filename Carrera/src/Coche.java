@@ -269,6 +269,9 @@ public class Coche {
     }
 
     public void setVelocidadActual(double velocidadActual) {
+        if (velocidadActual > velocidadMaxima){
+            velocidadActual=velocidadMaxima;
+        }
         this.velocidadActual = velocidadActual;
     }
 

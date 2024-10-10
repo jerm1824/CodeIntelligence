@@ -68,5 +68,22 @@ public class Main {
         }while (circuitoSeleccionado==null);
         Carrera carrera = new Carrera(circuitoSeleccionado, coches, false,cocheSeleccionado);
         carrera.iniciarCarrera();
+        boolean noContinuar=true;
+        System.out.println("Quiere hacer otra carrera S/N");
+        while (noContinuar){
+            String repetirCarrera="";
+            repetirCarrera= scan.next();
+            if (repetirCarrera.equalsIgnoreCase("s")){
+                carrera.iniciarCarrera();
+            }
+            else if (repetirCarrera.equalsIgnoreCase("n")){
+                System.out.println("Cerrando el programa");
+                noContinuar=false;
+            }
+            else{
+                System.out.println("Introduzca solo S o N");
+            }
+
+        }
     }
 }
