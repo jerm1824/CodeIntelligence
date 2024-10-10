@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 public class Grupos {
 
     private int id;
@@ -8,6 +10,8 @@ public class Grupos {
 
     private String descripcion;
 
+    private List<Usuarios> listaUsuarios;
+
 
     private Grupos(){
         id=1;
@@ -15,10 +19,11 @@ public class Grupos {
         descripcion="descripcion";
     }
 
-    public Grupos(int id,String nombre, String descripcion){
+    public Grupos(int id,String nombre, String descripcion,List<Usuarios> listaUsuarios){
         setId(id);
         setNombre(nombre);
         setDescripcion(descripcion);
+        setListaUsuarios(listaUsuarios);
     }
 
     public int getId() {
@@ -43,5 +48,13 @@ public class Grupos {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<Usuarios> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    public void setListaUsuarios(List<Usuarios> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
     }
 }
