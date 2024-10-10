@@ -66,7 +66,33 @@ public class Main {
                 scan.next();
             }
         }while (circuitoSeleccionado==null);
-        Carrera carrera = new Carrera(circuitoSeleccionado, coches, false,cocheSeleccionado);
+
+        boolean eleccionClima=true;
+        while (eleccionClima){
+            System.out.println("El clima actual del circuito es: " + circuitoSeleccionado.getTiempo() + " ¿Quiere cambiarlo? S/N");
+            String cambiarClima=scan.next();
+            if (cambiarClima.equalsIgnoreCase("s")){
+                System.out.println("Los climas disponibles son: SOLEADO,LLUVIOSO,NUBLADO,NEVADO" );
+                System.out.println("Introduzca un clima valido");
+                String climaUsuario=scan.next().toUpperCase();
+                for(Climas clima : Climas.values()){
+                    if (climaUsuario.equals(clima.name())){
+                        circuitoSeleccionado.setTiempo(climaUsuario);
+                        eleccionClima=false;
+                    }
+                }
+            }
+            else if (cambiarClima.equalsIgnoreCase("n")){
+                System.out.println("No se va a cambiar el clima");
+                eleccionClima = false;
+            }
+            else {
+                System.out.println("Introduzca solo s/n");
+            }
+        }
+
+
+        Carrera carrera = new Carrera(circuitoSeleccionado, coches, cocheSeleccionado);
         carrera.iniciarCarrera();
         boolean noContinuar=true;
         System.out.println("Quiere hacer otra carrera S/N");
