@@ -3,8 +3,8 @@ package models;
 import java.util.List;
 
 public class Usuarios {
-    private int id;
-    private String Nombre;
+    private String id;
+    private String nombre;
     private String email;
     private int edad;
     private List<Departamentos> departamentos;
@@ -12,29 +12,29 @@ public class Usuarios {
 
     public Usuarios() {}
 
-    public Usuarios(int id, String nombre, String email, int edad, List<Departamentos> departamentos, List<Roles> roles) {
+    public Usuarios(String id, String nombre, String email, int edad, List<Departamentos> departamentos, List<Roles> roles) {
         this.id = id;
-        Nombre = nombre;
+        this.nombre = nombre;
         this.email = email;
         this.edad = edad;
         this.departamentos = departamentos;
         this.roles = roles;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public String getEmail() {
@@ -69,11 +69,15 @@ public class Usuarios {
         this.roles = roles;
     }
 
+    public String toCsvString() {
+        return String.format("%s,%s,%s,%d", id, nombre, email, edad);
+    }
+
     @Override
     public String toString() {
         return "Usuarios{" +
                 "id=" + id +
-                ", Nombre='" + Nombre + '\'' +
+                ", Nombre='" + nombre + '\'' +
                 ", email='" + email + '\'' +
                 ", edad=" + edad +
                 ", departamentos=" + departamentos +

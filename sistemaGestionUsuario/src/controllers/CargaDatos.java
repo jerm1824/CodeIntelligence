@@ -26,7 +26,7 @@ public class CargaDatos {
         for (String line : lines.subList(1, lines.size())) {
             String[] fields = line.split(",");
             Usuarios usuario = new Usuarios(
-                    Integer.parseInt(fields[0]),
+                    fields[0],
                     fields[1],
                     fields[2],
                     Integer.parseInt(fields[3]),
@@ -45,7 +45,7 @@ public class CargaDatos {
         for (String line : lines.subList(1, lines.size())) {
             String[] fields = line.split(",");
             Departamentos departamento = new Departamentos(
-                    Integer.parseInt(fields[0]),
+                    fields[0],
                     fields[1],
                     fields[2],
                     new ArrayList<>()

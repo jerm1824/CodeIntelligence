@@ -3,7 +3,7 @@ package models;
 import java.util.List;
 
 public class Departamentos {
-    private int id;
+    private String id;
     private String nombre;
     private String descripcion;
     private List<Usuarios> usuarios;
@@ -11,18 +11,18 @@ public class Departamentos {
     public Departamentos() {
     }
 
-    public Departamentos(int id, String nombre, String descripcion, List<Usuarios> usuarios) {
+    public Departamentos(String id, String nombre, String descripcion, List<Usuarios> usuarios) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.usuarios = usuarios;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
