@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,11 +67,13 @@ public class CargaDatos {
         Path filePath = obtenerRuta(fileName); // Obtener ruta desde resources
         List<String> lines = Files.readAllLines(filePath);
         for (String line : lines.subList(1, lines.size())) {
+
             String[] fields = line.split(",");
+            List<String> permisos = Arrays.asList(fields[2].replace("\"", "").split(","));
             Roles rol = new Roles(
                     (fields[0]),
                     fields[1],
-                    new ArrayList<>()
+                   permisos
             );
             roles.add(rol);
         }

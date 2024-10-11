@@ -9,9 +9,6 @@ public class Roles {
 
     private List<String> permisos;
 
-    private Roles(){
-    }
-
     public Roles(String id,String nombre, List<String> permisos){
         setId(id);
         setNombre(nombre);

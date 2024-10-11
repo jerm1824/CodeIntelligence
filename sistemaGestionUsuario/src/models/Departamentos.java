@@ -57,7 +57,11 @@ public class Departamentos {
     }
 
     public String toCsvString() {
-        return String.format("%s,%s,%s", getId(), getNombre(), getDescripcion()+getUsuarios());
+        return String.format("%s,%s,%s,%s", getId(), getNombre(), getDescripcion(),getUsuarios());
+    }
+
+    public void menu(){
+
     }
     @Override
     public String toString() {
