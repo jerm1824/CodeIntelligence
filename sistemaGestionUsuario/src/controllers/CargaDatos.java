@@ -87,15 +87,21 @@ public class CargaDatos {
         List<String> lines = Files.readAllLines(filePath);
 
         for (String line : lines.subList(1, lines.size())) { // Omitir la cabecera
-            String[] fields = line.split(",", 3);
+            String[] fields = line.split(",", -1); // Usa -1 para incluir campos vacíos
 
-            // Procesar la lista de permisos (eliminar comillas y dividir por comas)
-            List<String> permisos = Arrays.asList(fields[2].replace("\"", "").split(","));
+            // Procesar la lista de permisos, eliminando corchetes y dividiendo por comas
+            List<String> permisos = new ArrayList<>();
+            if (fields.length > 2 && !fields[2].isEmpty()) { // Asegúrate de que hay permisos
+                String permisosStr = fields[2].replace("[", "").replace("]", "").trim(); // Eliminar corchetes
+                if (!permisosStr.isEmpty()) {
+                    permisos = Arrays.asList(permisosStr.split(",\\s*")); // Divide por comas y elimina espacios
+                }
+            }
 
             Roles rol = new Roles(
-                    fields[0],
-                    fields[1],
-                    permisos
+                    fields[0], // ID
+                    fields[1], // Nombre
+                    permisos // Lista de permisos
             );
             roles.add(rol);
         }

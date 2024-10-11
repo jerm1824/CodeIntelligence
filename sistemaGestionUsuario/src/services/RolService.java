@@ -20,10 +20,14 @@ public class RolService {
 
     List<Roles> rolesList;
     private List<Usuarios> usuarios;
+    private List<Departamentos> departamentos;
+    private List<Grupos> grupos;
 
-    public RolService(List<Roles>rolesList, List<Usuarios> usuarios){
+    public RolService(List<Roles>rolesList, List<Usuarios> usuarios, List<Departamentos> departamentos, List<Grupos> grupos){
         setRolesList(rolesList);
         this.usuarios = usuarios;
+        this.departamentos = departamentos;
+        this.grupos = grupos;
     }
 
     public List<Roles> obtenerTodosLosRoles(){
@@ -98,6 +102,22 @@ public class RolService {
 
     public void setRolesList(List<Roles> rolesList) {
         this.rolesList = rolesList;
+    }
+
+    public boolean verificarPermisoUsuario(String usuarioId, String permiso) throws IOException, URISyntaxException {
+        List<Usuarios> usuarios = CargaDatos.cargarUsuarios("usuarios.csv", departamentos, rolesList, grupos);
+        for (Usuarios compUsuario : usuarios) {
+            if (compUsuario.getId().equals(usuarioId)) {
+                for (Roles rol : compUsuario.getRoles()) {
+                    if (rol.getPermisos().contains(permiso)) {
+                        System.out.println("El usuario posee el permiso");
+                        return true;
+                    }
+                }
+            }
+        }
+        System.out.println("El usuario no posee el permiso");
+        return false;
     }
 
     private static Path obtenerRuta(String fileName) throws IOException, URISyntaxException {

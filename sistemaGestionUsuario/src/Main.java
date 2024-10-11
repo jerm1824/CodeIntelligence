@@ -24,7 +24,7 @@ public class Main {
 
         UsuarioService usuarioService = new UsuarioService(usuarios);
         GrupoService grupoService = new GrupoService(grupos, usuarios);
-        RolService rolService = new RolService(roles,usuarios);
+        RolService rolService = new RolService(roles,usuarios,departamentos,grupos);
         DepartamentoService departamentoService = new DepartamentoService(departamentos,usuarios);
         Scanner scanner = new Scanner(System.in);
         int opcion;
@@ -425,6 +425,7 @@ public class Main {
                         System.out.println("4. Crear rol");
                         System.out.println("5. Actualizar rol");
                         System.out.println("6. Eliminar rol");
+                        System.out.println("7. Verificar si un usuario posee un permiso");
                         System.out.println("0. Salir");
                         System.out.print("Selecciona una opción: ");
                         opcionRoles = scanner.nextInt();
@@ -489,6 +490,14 @@ public class Main {
                                 System.out.print("Introduce el ID del rol a eliminar: ");
                                 String idEliminar = scanner.nextLine();
                                 rolService.eliminarRol(idEliminar);
+                                break;
+
+                            case 7:
+                                System.out.println("Introduce el ID del usuario cuyos permisos quieres comprobar: ");
+                                String idUsuario = scanner.nextLine();
+                                System.out.println("Introduce el nombre del permiso que quieres comprobar");
+                                String permiso = scanner.nextLine();
+                                rolService.verificarPermisoUsuario(idUsuario,permiso);
                                 break;
 
                             case 0:
