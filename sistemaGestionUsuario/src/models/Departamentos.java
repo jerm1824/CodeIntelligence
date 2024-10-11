@@ -11,11 +11,17 @@ public class Departamentos {
     public Departamentos() {
     }
 
+    public Departamentos(String id, String nombre, String descripcion){
+        setId(id);
+        setNombre(nombre);
+        setDescripcion(descripcion);
+    }
+
     public Departamentos(String id, String nombre, String descripcion, List<Usuarios> usuarios) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.usuarios = usuarios;
+        setId(id);
+        setNombre(nombre);
+        setDescripcion(descripcion);
+        setUsuarios(usuarios);
     }
 
     public String getId() {
@@ -50,6 +56,9 @@ public class Departamentos {
         this.usuarios = usuarios;
     }
 
+    public String toCsvString() {
+        return String.format("%s,%s,%s", getId(), getNombre(), getDescripcion()+getUsuarios());
+    }
     @Override
     public String toString() {
         return "Departamentos{" +

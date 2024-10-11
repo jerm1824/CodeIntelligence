@@ -6,6 +6,8 @@ import models.Roles;
 import models.Usuarios;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,11 +17,15 @@ import java.util.Objects;
 
 public class CargaDatos {
 
-    private static Path obtenerRuta(String fileName) throws IOException {
-        return Paths.get(Objects.requireNonNull(CargaDatos.class.getClassLoader().getResource(fileName)).getPath());
+    private static Path obtenerRuta(String fileName) throws IOException, URISyntaxException {
+        URL resourceUrl = CargaDatos.class.getClassLoader().getResource(fileName);
+        if (resourceUrl == null){
+            throw new IOException("Resource not found: " + fileName);
+        }
+        return Paths.get(resourceUrl.toURI());
     }
 
-    public static List<Usuarios> cargarUsuarios(String fileName) throws IOException {
+    public static List<Usuarios> cargarUsuarios(String fileName) throws IOException, URISyntaxException {
         List<Usuarios> usuarios = new ArrayList<>();
         Path filePath = obtenerRuta(fileName); // Obtener ruta desde resources
         List<String> lines = Files.readAllLines(filePath);
@@ -38,7 +44,7 @@ public class CargaDatos {
         return usuarios;
     }
 
-    public static List<Departamentos> cargarDepartamentos(String fileName) throws IOException {
+    public static List<Departamentos> cargarDepartamentos(String fileName) throws IOException, URISyntaxException {
         List<Departamentos> departamentos = new ArrayList<>();
         Path filePath = obtenerRuta(fileName); // Obtener ruta desde resources
         List<String> lines = Files.readAllLines(filePath);
@@ -55,14 +61,14 @@ public class CargaDatos {
         return departamentos;
     }
 
-    public static List<Roles> cargarRoles(String fileName) throws IOException {
+    public static List<Roles> cargarRoles(String fileName) throws IOException, URISyntaxException {
         List<Roles> roles = new ArrayList<>();
         Path filePath = obtenerRuta(fileName); // Obtener ruta desde resources
         List<String> lines = Files.readAllLines(filePath);
         for (String line : lines.subList(1, lines.size())) {
             String[] fields = line.split(",");
             Roles rol = new Roles(
-                    Integer.parseInt(fields[0]),
+                    (fields[0]),
                     fields[1],
                     new ArrayList<>()
             );
@@ -71,7 +77,7 @@ public class CargaDatos {
         return roles;
     }
 
-    public static List<Grupos> cargarGrupos(String fileName) throws IOException {
+    public static List<Grupos> cargarGrupos(String fileName) throws IOException, URISyntaxException {
         List<Grupos> grupos = new ArrayList<>();
         Path filePath = obtenerRuta(fileName); // Obtener ruta desde resources
         List<String> lines = Files.readAllLines(filePath);
