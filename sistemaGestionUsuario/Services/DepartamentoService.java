@@ -126,6 +126,8 @@ public class DepartamentoService {
 
     }
 
+
+
     public void menu(List<Departamentos> departamentos) throws IOException, URISyntaxException {
         Scanner scan=new Scanner(System.in);
         DepartamentoService departamentoService = new DepartamentoService(departamentos);
