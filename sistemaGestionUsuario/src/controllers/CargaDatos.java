@@ -31,6 +31,7 @@ public class CargaDatos {
                     fields[2],
                     Integer.parseInt(fields[3]),
                     new ArrayList<>(),
+                    new ArrayList<>(),
                     new ArrayList<>()
             );
             usuarios.add(usuario);
@@ -78,7 +79,7 @@ public class CargaDatos {
         for (String line : lines.subList(1, lines.size())) {
             String[] fields = line.split(",");
             Grupos grupo = new Grupos(
-                    Integer.parseInt(fields[0]),
+                    fields[0],
                     fields[1],
                     fields[2],
                     new ArrayList<>()

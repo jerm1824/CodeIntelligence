@@ -9,16 +9,18 @@ public class Usuarios {
     private int edad;
     private List<Departamentos> departamentos;
     private List<Roles> roles;
+    private List<Grupos> grupos;
 
     public Usuarios() {}
 
-    public Usuarios(String id, String nombre, String email, int edad, List<Departamentos> departamentos, List<Roles> roles) {
+    public Usuarios(String id, String nombre, String email, int edad, List<Departamentos> departamentos, List<Roles> roles, List<Grupos> grupos) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.edad = edad;
         this.departamentos = departamentos;
         this.roles = roles;
+        this.grupos = grupos;
     }
 
     public String getId() {
@@ -61,13 +63,15 @@ public class Usuarios {
         this.departamentos = departamentos;
     }
 
-    public List<Roles> getRoles() {
-        return roles;
-    }
+    public List<Roles> getRoles() { return roles; }
 
     public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
+
+    public List<Grupos> getGrupos() { return grupos; }
+
+    public void setGrupos(List<Grupos> grupos) { this.grupos = grupos; }
 
     public String toCsvString() {
         return String.format("%s,%s,%s,%d", id, nombre, email, edad);
@@ -82,6 +86,7 @@ public class Usuarios {
                 ", edad=" + edad +
                 ", departamentos=" + departamentos +
                 ", roles=" + roles +
+                ", grupos=" + grupos +
                 '}';
     }
 }

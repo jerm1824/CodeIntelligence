@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Grupos {
 
-    private int id;
+    private String id;
 
     private String nombre;
 
@@ -14,23 +14,23 @@ public class Grupos {
 
 
     private Grupos(){
-        id=1;
+        id="1";
         nombre="grupo 1";
         descripcion="descripcion";
     }
 
-    public Grupos(int id,String nombre, String descripcion,List<Usuarios> listaUsuarios){
+    public Grupos(String id,String nombre, String descripcion,List<Usuarios> listaUsuarios){
         setId(id);
         setNombre(nombre);
         setDescripcion(descripcion);
         setListaUsuarios(listaUsuarios);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
