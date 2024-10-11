@@ -2,6 +2,7 @@ package services;
 
 import controllers.CargaDatos;
 import models.Departamentos;
+import models.Roles;
 import models.Usuarios;
 
 import java.io.BufferedWriter;
@@ -20,9 +21,11 @@ import java.util.stream.Collectors;
 
 public class DepartamentoService {
     List<Departamentos> departamentosList;
+    private List<Usuarios> usuarios;
 
-    public DepartamentoService(List<Departamentos> departamentosList) {
+    public DepartamentoService(List<Departamentos> departamentosList, List<Usuarios> usuarios) {
         setDepartamentosList(departamentosList);
+        this.usuarios = usuarios;
     }
 
     public List<Departamentos> getDepartamentosList() {
@@ -46,12 +49,16 @@ public class DepartamentoService {
                 .contains(nombre.toLowerCase())).collect(Collectors.toList());
     }
 
-    List<Departamentos>obtenerDepartamentosPorUsuario(String idUsuario){
-        return departamentosList.stream().filter(d-> d.getUsuarios().
-                stream().anyMatch(u -> u.getId().equalsIgnoreCase(idUsuario))).collect(Collectors.toList());
+    public List<Departamentos> obtenerDepartamentosPorUsuario(String id){
+        if (usuarios == null) {
+            throw new IllegalStateException("La lista de usuarios no ha sido inicializada.");
+        }
+        return Objects.requireNonNull(usuarios.stream()
+                .filter(u -> u.getId().equals(id))
+                .findFirst().orElse(null)).getDepartamentos();
     }
 
-    void crearDepartamento(Departamentos departamento) throws IOException, URISyntaxException {
+    public void crearDepartamento(Departamentos departamento) throws IOException, URISyntaxException {
         for (Departamentos compDepartamento : departamentosList){
             if (compDepartamento.getId().equalsIgnoreCase(departamento.getId())){
                 System.out.println("Ese id ya esta en uso");
@@ -64,7 +71,7 @@ public class DepartamentoService {
         guardarModificaciones(filePath);
     }
 
-    void actualizarDepartamento(Departamentos departamento) throws IOException, URISyntaxException {
+    public void actualizarDepartamento(Departamentos departamento) throws IOException, URISyntaxException {
         String filePath=obtenerRutaArchivo();
         boolean encontrado=false;
         for (int i = 0; i < departamentosList.size(); i++) {
@@ -82,7 +89,7 @@ public class DepartamentoService {
         }
     }
 
-    void eliminarDepartamento(String idDepartamento) throws IOException, URISyntaxException {
+    public void eliminarDepartamento(String idDepartamento) throws IOException, URISyntaxException {
         boolean encontrado = false;
         String filePath=obtenerRutaArchivo();
         for (int i = 0; i < departamentosList.size(); i++) {
@@ -127,103 +134,5 @@ public class DepartamentoService {
             throw e; // Lanzar de nuevo la excepción para manejarla en otro lugar si es necesario
         }
 
-    }
-
-
-
-    public void menu(List<Departamentos> departamentos) throws IOException, URISyntaxException {
-        Scanner scan=new Scanner(System.in);
-        DepartamentoService departamentoService = new DepartamentoService(departamentos);
-        int opcion;
-        do {
-            System.out.println("\n--- Menú de Departamentos ---");
-            System.out.println("1. Mostrar todos los departamentos");
-            System.out.println("2. Buscar departamento por ID");
-            System.out.println("3. Buscar departamento por nombre");
-            System.out.println("4. Obtener departamento por usuario");
-            System.out.println("5. Crear departamento");
-            System.out.println("6. Actualizar departamento");
-            System.out.println("7. Eliminar departamento");
-            System.out.println("0. Salir");
-            System.out.print("Selecciona una opción: ");
-            opcion = scan.nextInt();
-            scan.nextLine();
-            switch (opcion) {
-                case 1:
-                    //Mostrar departamentos
-                    System.out.println("\nLista de departamentos:");
-                    departamentoService.obtenerTodosLosDepartamentos().forEach(System.out::println);
-                    break;
-
-                case 2:
-                    // Buscar departamento por ID
-                    System.out.print("Introduce el ID del departamento: ");
-                    String id = scan.nextLine();
-                    Departamentos compDepartamento= departamentoService.buscarDepartamentoPorId(id);
-                    if (compDepartamento==null){
-                        System.out.println("El id introducido no es valido");
-                    }
-                    else {
-                        System.out.println("El id introducido es del departamento: " + compDepartamento);
-                    }
-                    break;
-
-                case 3:
-                    // Buscar departamento por nombre
-                    System.out.print("Introduce el nombre del departamento: ");
-                    String nombre = scan.nextLine();
-                    List<Departamentos> listaDepartamentosNombre= departamentoService.buscarDepartamentosPorNombre(nombre);
-                    listaDepartamentosNombre.forEach(System.out::println);
-                    break;
-
-                case 4:
-                    // Obtener departamento por usuario
-                    System.out.print("Introduce el ID del usuario: ");
-                    String usuarioId = scan.nextLine();
-                    List<Departamentos> listaDepartamentosUsuarios= departamentoService.obtenerDepartamentosPorUsuario(usuarioId);
-                    listaDepartamentosUsuarios.forEach(System.out::println);
-                    break;
-
-                case 5:
-                    //Crear departamento
-                    System.out.print("Introduce el ID del departamento: ");
-                    String nuevoId = scan.nextLine();
-                    System.out.print("Introduce el nombre del departamento: ");
-                    String nuevoNombre = scan.nextLine();
-                    System.out.print("Introduce la descripción del departamento: ");
-                    String nuevaDescripcion = scan.nextLine();
-
-                    Departamentos departamentos1=new Departamentos(nuevoId,nuevoNombre,nuevaDescripcion, new ArrayList<>());
-                    departamentoService.crearDepartamento(departamentos1);
-                    break;
-
-                case 6:
-                    // Actualizar departamento
-                    System.out.print("Introduce el ID del departamento a actualizar: ");
-                    String idActualizar = scan.nextLine();
-                    System.out.print("Introduce el nuevo nombre del departamento: ");
-                    String nombreActualizar = scan.nextLine();
-                    System.out.print("Introduce la nueva descripcion del departamento: ");
-                    String descripcionActualizar = scan.nextLine();
-                    Departamentos departamentoActualizado= new Departamentos(idActualizar,nombreActualizar,descripcionActualizar, new ArrayList<>());
-                    departamentoService.actualizarDepartamento(departamentoActualizado);
-                    break;
-
-                case 7:
-                    // Eliminar departamento
-                    System.out.print("Introduce el ID del departamento a eliminar: ");
-                    String idEliminar = scan.nextLine();
-                    departamentoService.eliminarDepartamento(idEliminar);
-                    break;
-
-                case 0:
-                    // Salir
-                    System.out.println("Saliendo...");
-                    break;
-
-                default:
-                    System.out.println("Opción no válida. Por favor, elige de nuevo.");
-            }
-        } while (opcion != 0);
     }
 }
