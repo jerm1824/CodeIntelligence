@@ -1,9 +1,10 @@
+package services;
+
 import controllers.CargaDatos;
 import models.Departamentos;
 import models.Usuarios;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -11,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -97,6 +97,16 @@ public class DepartamentoService {
         }
     }
 
+    private void asignarUsuariosDepartamento(List<Usuarios> usuarios,String idDepartamento){
+        for (Departamentos departamento: departamentosList){
+            if (departamento.getId().equals(idDepartamento)){
+                departamento.setUsuarios(usuarios);
+                return;
+            }
+        }
+        System.out.println("El id introducido no es valido");
+    }
+
     private static Path obtenerRuta(String fileName) throws IOException, URISyntaxException {
         URL resourceUrl = CargaDatos.class.getClassLoader().getResource(fileName);
         if (resourceUrl == null){
@@ -125,8 +135,6 @@ public class DepartamentoService {
         }
 
     }
-
-
 
     public void menu(List<Departamentos> departamentos) throws IOException, URISyntaxException {
         Scanner scan=new Scanner(System.in);

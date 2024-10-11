@@ -3,10 +3,11 @@ import models.Departamentos;
 import models.Grupos;
 import models.Roles;
 import models.Usuarios;
+import services.DepartamentoService;
+import services.RolService;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
