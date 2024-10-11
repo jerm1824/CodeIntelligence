@@ -1,6 +1,7 @@
 package models;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Usuarios {
     private String id;
@@ -85,8 +86,13 @@ public class Usuarios {
                 ", email='" + email + '\'' +
                 ", edad=" + edad +
                 ", departamentos=" + departamentos +
-                ", roles=" + roles +
-                ", grupos=" + grupos +
+                ", roles=" + roles.stream()
+                .map(Roles::getNombre)  // Obtener el nombre de cada rol
+                .collect(Collectors.joining(", ")) +
+                ", grupos=" + grupos.stream()
+                .map(Grupos::getNombre) // Obtener el nombre de cada grupo
+                .collect(Collectors.joining(", ")) +
                 '}';
     }
+
 }

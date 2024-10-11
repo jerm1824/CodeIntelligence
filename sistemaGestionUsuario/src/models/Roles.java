@@ -42,6 +42,10 @@ public class Roles {
         this.permisos = permisos;
     }
 
+    public String toCsvString() {
+        return String.format("%s,%s,%s", getId(), getNombre(), getPermisos());
+    }
+
     @Override
     public String toString() {
         return "Roles{" +

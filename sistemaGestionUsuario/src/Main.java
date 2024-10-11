@@ -4,6 +4,7 @@ import models.Grupos;
 import models.Roles;
 import models.Usuarios;
 import services.GrupoService;
+import services.RolService;
 import services.UsuarioService;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class Main {
 
         UsuarioService usuarioService = new UsuarioService(usuarios);
         GrupoService grupoService = new GrupoService(grupos, usuarios);
+        RolService rolService = new RolService(roles);
         Scanner scanner = new Scanner(System.in);
         int opcion;
         int opcionUsuarios;
@@ -98,10 +100,42 @@ public class Main {
                                 int nuevaEdad = scanner.nextInt();
                                 scanner.nextLine(); // Limpiar el buffer
 
-                                Usuarios nuevoUsuario = new Usuarios(nuevoId, nuevoNombre, nuevoEmail, nuevaEdad, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                                // Listar roles disponibles
+                                System.out.println("Roles disponibles:");
+                                List<Roles> rolesDisponibles = rolService.obtenerTodosLosRoles();
+                                rolesDisponibles.forEach(rol -> System.out.println(rol.getId() + ": " + rol.getNombre()));
+
+                                System.out.print("Introduce los IDs de roles separados por comas: ");
+                                String[] idsRoles = scanner.nextLine().split(",");
+                                List<Roles> rolesSeleccionados = new ArrayList<>();
+                                for (String idRol : idsRoles) {
+                                    Roles rol = rolService.buscarRolPorId(idRol.trim());
+                                    if (rol != null) {
+                                        rolesSeleccionados.add(rol);
+                                    }
+                                }
+
+                                // Listar grupos disponibles
+                                System.out.println("Grupos disponibles:");
+                                List<Grupos> gruposDisponibles = grupoService.obtenerTodosLosGrupos();
+                                gruposDisponibles.forEach(grupo -> System.out.println(grupo.getId() + ": " + grupo.getNombre()));
+
+                                System.out.print("Introduce los IDs de grupos separados por comas: ");
+                                String[] idsGrupos = scanner.nextLine().split(",");
+                                List<Grupos> gruposSeleccionados = new ArrayList<>();
+                                for (String idGrupo : idsGrupos) {
+                                    Grupos grupo = grupoService.buscarGrupoPorId(idGrupo.trim());
+                                    if (grupo != null) {
+                                        gruposSeleccionados.add(grupo);
+                                    }
+                                }
+
+                                // Crear el nuevo usuario con los roles y grupos seleccionados
+                                Usuarios nuevoUsuario = new Usuarios(nuevoId, nuevoNombre, nuevoEmail, nuevaEdad, new ArrayList<>(), rolesSeleccionados, gruposSeleccionados);
                                 usuarioService.crearUsuario(nuevoUsuario);
                                 System.out.println("Usuario creado: " + nuevoUsuario);
                                 break;
+
                             case 6:
                                 // Actualizar usuario
                                 System.out.print("Introduce el ID del usuario a actualizar: ");
@@ -116,9 +150,42 @@ public class Main {
                                     int nuevaEdadActualizar = scanner.nextInt();
                                     scanner.nextLine(); // Limpiar el buffer
 
+                                    // Listar roles disponibles
+                                    System.out.println("Roles disponibles:");
+                                    List<Roles> rolesDisponiblesActualizar = rolService.obtenerTodosLosRoles();
+                                    rolesDisponiblesActualizar.forEach(rol -> System.out.println(rol.getId() + ": " + rol.getNombre()));
+
+                                    System.out.print("Introduce los IDs de roles separados por comas: ");
+                                    String[] idsRolesActualizar = scanner.nextLine().split(",");
+                                    List<Roles> rolesSeleccionadosActualizar = new ArrayList<>();
+                                    for (String idRol : idsRolesActualizar) {
+                                        Roles rol = rolService.buscarRolPorId(idRol.trim());
+                                        if (rol != null) {
+                                            rolesSeleccionadosActualizar.add(rol);
+                                        }
+                                    }
+
+                                    // Listar grupos disponibles
+                                    System.out.println("Grupos disponibles:");
+                                    List<Grupos> gruposDisponiblesActualizar = grupoService.obtenerTodosLosGrupos();
+                                    gruposDisponiblesActualizar.forEach(grupo -> System.out.println(grupo.getId() + ": " + grupo.getNombre()));
+
+                                    System.out.print("Introduce los IDs de grupos separados por comas: ");
+                                    String[] idsGruposActualizar = scanner.nextLine().split(",");
+                                    List<Grupos> gruposSeleccionadosActualizar = new ArrayList<>();
+                                    for (String idGrupo : idsGruposActualizar) {
+                                        Grupos grupo = grupoService.buscarGrupoPorId(idGrupo.trim());
+                                        if (grupo != null) {
+                                            gruposSeleccionadosActualizar.add(grupo);
+                                        }
+                                    }
+
+                                    // Actualizar el usuario con los nuevos datos, roles y grupos seleccionados
                                     usuarioActualizar.setNombre(nuevoNombreActualizar);
                                     usuarioActualizar.setEmail(nuevoEmailActualizar);
                                     usuarioActualizar.setEdad(nuevaEdadActualizar);
+                                    usuarioActualizar.setRoles(rolesSeleccionadosActualizar);
+                                    usuarioActualizar.setGrupos(gruposSeleccionadosActualizar);
 
                                     usuarioService.actualizarUsuario(usuarioActualizar);
                                     System.out.println("Usuario actualizado: " + usuarioActualizar);
