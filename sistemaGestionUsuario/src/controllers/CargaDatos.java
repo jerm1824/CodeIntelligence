@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,12 +61,17 @@ public class CargaDatos {
         List<Roles> roles = new ArrayList<>();
         Path filePath = obtenerRuta(fileName); // Obtener ruta desde resources
         List<String> lines = Files.readAllLines(filePath);
-        for (String line : lines.subList(1, lines.size())) {
-            String[] fields = line.split(",");
+
+        for (String line : lines.subList(1, lines.size())) { // Omitir la cabecera
+            String[] fields = line.split(",", 3);
+
+            // Procesar la lista de permisos (eliminar comillas y dividir por comas)
+            List<String> permisos = Arrays.asList(fields[2].replace("\"", "").split(","));
+
             Roles rol = new Roles(
-                    Integer.parseInt(fields[0]),
+                    fields[0],
                     fields[1],
-                    new ArrayList<>()
+                    permisos
             );
             roles.add(rol);
         }

@@ -3,7 +3,7 @@ package models;
 import java.util.List;
 
 public class Roles {
-    private int id;
+    private String id;
 
     private String nombre;
 
@@ -12,17 +12,17 @@ public class Roles {
     private Roles(){
     }
 
-    public Roles(int id,String nombre, List<String> permisos){
+    public Roles(String id,String nombre, List<String> permisos){
         this.id = id;
         this.nombre = nombre;
         this.permisos = permisos;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
