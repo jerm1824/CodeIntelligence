@@ -50,6 +50,10 @@ public class Departamentos {
         this.usuarios = usuarios;
     }
 
+    public String toCsvString() {
+        return String.format("%s,%s,%s", id, nombre, descripcion);
+    }
+
     @Override
     public String toString() {
         return "Departamentos{" +

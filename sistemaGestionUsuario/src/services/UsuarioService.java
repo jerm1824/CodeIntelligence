@@ -69,9 +69,9 @@ public class UsuarioService {
     private void guardarModificaciones(String filePath) throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
             System.out.println("Guardando usuarios");
-            writer.write("id,nombre,email,edad\n"); // Escribir encabezados
+            writer.write("id,nombre,email,edad,departamentos,roles,grupos\n"); // Escribir encabezados
             for (Usuarios usuario : usuarios) {
-                writer.write(usuario.toCsvString() + "\n");
+                writer.write(usuario.toCsvString() + "\n"); // Guardar cada usuario
             }
         } catch (IOException e) {
             System.err.println("Error al guardar los usuarios en el CSV: " + e.getMessage());

@@ -31,11 +31,11 @@ public class RolService {
         return rolesList.stream().filter(r -> r.getId().equalsIgnoreCase(id)).findFirst().orElse(null);
     }
 
-    public List<Roles> buscarRolesPorUsuario(String usuarioId) throws IOException, URISyntaxException {
+    /*public List<Roles> buscarRolesPorUsuario(String usuarioId) throws IOException, URISyntaxException {
         List<Usuarios> usuarios= CargaDatos.cargarUsuarios("usuarios.csv");
         return usuarios.stream().filter(u-> u.getId().equals(usuarioId)).
                 findFirst().map(Usuarios::getRoles).orElse(Collections.emptyList());
-    }
+    }*/
 
     void crealRol(Roles rol) throws IOException, URISyntaxException{
         for (Roles compRol : rolesList){
@@ -162,8 +162,8 @@ public class RolService {
                     // Buscar roles por usuario
                     System.out.print("Introduce el nombre del usuario cuyo rol quiere saber: ");
                     String nombre = scan.nextLine();
-                    List<Roles> listaRolesPorUsuario= rolService.buscarRolesPorUsuario(nombre);
-                    listaRolesPorUsuario.forEach(System.out::println);
+                    // List<Roles> listaRolesPorUsuario= rolService.buscarRolesPorUsuario(nombre);
+                    // listaRolesPorUsuario.forEach(System.out::println);
                     break;
 
                 case 4:

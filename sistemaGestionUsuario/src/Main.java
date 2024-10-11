@@ -3,6 +3,7 @@ import models.Departamentos;
 import models.Grupos;
 import models.Roles;
 import models.Usuarios;
+import services.DepartamentoService;
 import services.GrupoService;
 import services.RolService;
 import services.UsuarioService;
@@ -14,14 +15,16 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        List<Usuarios> usuarios = CargaDatos.cargarUsuarios("usuarios.csv");
         List<Departamentos> departamentos = CargaDatos.cargarDepartamentos("departamentos.csv");
         List<Roles> roles = CargaDatos.cargarRoles("roles.csv");
         List<Grupos> grupos = CargaDatos.cargarGrupos("departamentos.csv");
+        List<Usuarios> usuarios = CargaDatos.cargarUsuarios("usuarios.csv", departamentos, roles, grupos);
+
 
         UsuarioService usuarioService = new UsuarioService(usuarios);
         GrupoService grupoService = new GrupoService(grupos, usuarios);
         RolService rolService = new RolService(roles);
+        DepartamentoService departamentoService = new DepartamentoService(departamentos);
         Scanner scanner = new Scanner(System.in);
         int opcion;
         int opcionUsuarios;
@@ -100,6 +103,21 @@ public class Main {
                                 int nuevaEdad = scanner.nextInt();
                                 scanner.nextLine(); // Limpiar el buffer
 
+                                // Listar departamentos disponibles
+                                System.out.println("Departamentos disponibles:");
+                                List<Departamentos> departamentosDisponibles = departamentoService.obtenerTodosLosDepartamentos();
+                                departamentosDisponibles.forEach(departamento -> System.out.println(departamento.getId() + ": " + departamento.getNombre()));
+
+                                System.out.print("Introduce el IDs de los departamentos separados por comas: ");
+                                String[] idsDepartamentos = scanner.nextLine().split(",");
+                                List<Departamentos> departamentosSeleccionados = new ArrayList<>();
+                                for (String idDepartamento : idsDepartamentos) {
+                                    Departamentos departamento = departamentoService.buscarDepartamentoPorId(idDepartamento.trim());
+                                    if (departamento != null) {
+                                        departamentosSeleccionados.add(departamento);
+                                    }
+                                }
+
                                 // Listar roles disponibles
                                 System.out.println("Roles disponibles:");
                                 List<Roles> rolesDisponibles = rolService.obtenerTodosLosRoles();
@@ -131,7 +149,7 @@ public class Main {
                                 }
 
                                 // Crear el nuevo usuario con los roles y grupos seleccionados
-                                Usuarios nuevoUsuario = new Usuarios(nuevoId, nuevoNombre, nuevoEmail, nuevaEdad, new ArrayList<>(), rolesSeleccionados, gruposSeleccionados);
+                                Usuarios nuevoUsuario = new Usuarios(nuevoId, nuevoNombre, nuevoEmail, nuevaEdad, departamentosSeleccionados, rolesSeleccionados, gruposSeleccionados);
                                 usuarioService.crearUsuario(nuevoUsuario);
                                 System.out.println("Usuario creado: " + nuevoUsuario);
                                 break;

@@ -75,7 +75,25 @@ public class Usuarios {
     public void setGrupos(List<Grupos> grupos) { this.grupos = grupos; }
 
     public String toCsvString() {
-        return String.format("%s,%s,%s,%d", id, nombre, email, edad);
+        String departamentosStr = departamentos.isEmpty()
+                ? ""
+                : departamentos.stream()
+                .map(Departamentos::getId)
+                .collect(Collectors.joining("|")); // Cambiar a "|" como separador
+
+        String rolesStr = roles.isEmpty()
+                ? ""
+                : roles.stream()
+                .map(Roles::getId)
+                .collect(Collectors.joining(",")); // Mantener "," para roles
+
+        String gruposStr = grupos.isEmpty()
+                ? ""
+                : grupos.stream()
+                .map(Grupos::getId)
+                .collect(Collectors.joining("|")); // Cambiar a "|" como separador
+
+        return String.format("%s,%s,%s,%d,%s,%s,%s", id, nombre, email, edad, departamentosStr, rolesStr, gruposStr);
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class CargaDatos {
 
@@ -20,21 +21,44 @@ public class CargaDatos {
         return Paths.get(Objects.requireNonNull(CargaDatos.class.getClassLoader().getResource(fileName)).getPath());
     }
 
-    public static List<Usuarios> cargarUsuarios(String fileName) throws IOException {
+    public static List<Usuarios> cargarUsuarios(String fileName,
+                                                List<Departamentos> todosDepartamentos,
+                                                List<Roles> todosRoles,
+                                                List<Grupos> todosGrupos) throws IOException {
         List<Usuarios> usuarios = new ArrayList<>();
         Path filePath = obtenerRuta(fileName); // Obtener ruta desde resources
         List<String> lines = Files.readAllLines(filePath);
-        for (String line : lines.subList(1, lines.size())) {
+
+        for (String line : lines.subList(1, lines.size())) { // Omitir el encabezado
             String[] fields = line.split(",");
-            Usuarios usuario = new Usuarios(
-                    fields[0],
-                    fields[1],
-                    fields[2],
-                    Integer.parseInt(fields[3]),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    new ArrayList<>()
-            );
+
+            // Crear el usuario con los datos básicos
+            String id = fields[0];
+            String nombre = fields[1];
+            String email = fields[2];
+            int edad = Integer.parseInt(fields[3]);
+
+            // Leer departamentos
+            List<Departamentos> departamentosUsuario = Arrays.stream(fields[4].split("\\|"))
+                    .map(depId -> buscarDepartamentoPorId(depId, todosDepartamentos))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            // Leer roles
+            List<Roles> rolesUsuario = Arrays.stream(fields[5].split("\\|"))
+                    .map(rolId -> buscarRolPorId(rolId, todosRoles))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            // Leer grupos
+            List<Grupos> gruposUsuario = Arrays.stream(fields[6].split("\\|"))
+                    .map(grupoId -> buscarGrupoPorId(grupoId, todosGrupos))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            // Crear el objeto Usuario con los datos cargados
+            Usuarios usuario = new Usuarios(id, nombre, email, edad,
+                    departamentosUsuario, rolesUsuario, gruposUsuario);
             usuarios.add(usuario);
         }
         return usuarios;
@@ -94,4 +118,26 @@ public class CargaDatos {
         }
         return grupos;
     }
+
+    private static Departamentos buscarDepartamentoPorId(String depId, List<Departamentos> todosDepartamentos) {
+        return todosDepartamentos.stream()
+                .filter(dep -> dep.getId().equals(depId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private static Roles buscarRolPorId(String rolId, List<Roles> todosRoles) {
+        return todosRoles.stream()
+                .filter(rol -> rol.getId().equals(rolId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private static Grupos buscarGrupoPorId(String grupoId, List<Grupos> todosGrupos) {
+        return todosGrupos.stream()
+                .filter(grupo -> grupo.getId().equals(grupoId))
+                .findFirst()
+                .orElse(null);
+    }
+
 }
